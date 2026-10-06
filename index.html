@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Registration</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-pink-100">
+
+    <div class="max-w-md mx-auto mt-10 bg-gray-500 p-6 rounded shadow">
+
+        <h2 class="text-2xl font-bold mb-5 text-center">
+            Student Registration
+        </h2>
+
+        <form id="registrationForm">
+
+            <!-- Name -->
+            <label>Student Name</label>
+            <input type="text" id="name"
+                class="w-full border p-2 mb-3 rounded" placeholder="Enter student name">
+
+            <!-- Email -->
+            <label>Email</label>
+            <input type="text" id="email"
+                class="w-full border p-2 mb-3 rounded" placeholder="Enter email address">
+
+            <!-- Password -->
+            <label>Password</label>
+            <input type="password" id="password"
+                class="w-full border p-2 mb-3 rounded" placeholder="Enter password">
+            
+
+                <button onclick ="showPass()" id="togglePassword"
+                class="w-lg bg-green-500 text-white p-2 rounded" id="password">
+                Show Password
+            </button>
+            <br>
+            <br>
+
+            <!-- Gender -->
+             <label class="block font-semibold mb-1 text-sm text-gray-700">
+                Gender <span class="text-red-500">*</span>
+            </label>
+            <select id="gender"
+            class="w-full border p-2 mb-4 rounded">
+            <option value="">Select Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+            </select>
+
+            <!-- Mobile -->
+            <label>Mobile Number</label>
+            <input type="text" id="mobile"
+                class="w-full border p-2 mb-4 rounded"  placeholder="Enter 10-digit mobile number">
+
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                <div>
+                    <label class="block font-semibold mb-1 text-sm text-gray-700">State <span class="text-red-500">*</span></label>
+                    <input type="text" id="state"
+                        class="w-full border p-2 mb-4 rounded"
+                        placeholder="State">
+                </div>
+                 <div>
+                    <label class="block font-semibold mb-1 text-sm text-gray-700">PIN Code <span class="text-red-500">*</span></label>
+                    <input type="text" id="pincode" maxlength="6"
+                        class="w-full border p-2 mb-4 rounded"
+                        placeholder="6-digit PIN">
+                </div>
+            </div>
+
+                <!-- Country -->
+            <label class="block font-semibold mb-1 text-sm text-gray-700">Country <span class="text-red-500">*</span></label>
+            <select id="country"
+                class="w-full border p-2 mb-4 rounded">
+                <option value="">Select Country</option>
+                <option value="India">India</option>
+                <option value="USA">USA</option>
+                <option value="UK">UK</option>
+                <option value="Canada">Canada</option>
+                <option value="Australia">Australia</option>
+            </select>
+
+
+            <button type="submit"
+                class="w-full bg-green-500 text-white p-2 rounded">
+                Register
+            </button>
+
+            <p id="message" class="mt-4 text-center"></p>
+
+        </form>
+    </div>
+
+
+   <script>
+        // Password toggle
+        const toggleBtn = document.getElementById("togglePassword");
+        const passwordInput = document.getElementById("password");
+
+        toggleBtn.onclick = function () {
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                this.textContent = "Hide";
+            } else {
+                passwordInput.type = "password";
+                this.textContent = "Show";
+            }
+        };
+
+        // Form Submit Handler
+        document.getElementById("registrationForm").onsubmit = function(event) {
+            event.preventDefault();
+
+            let name = document.getElementById("name").value.trim();
+            let email = document.getElementById("email").value.trim();
+            let password = passwordInput.value;
+            let gender = document.getElementById("gender").value;
+            let mobile = document.getElementById("mobile").value.trim();
+            let state = document.getElementById("state").value.trim();
+            let pincode = document.getElementById("pincode").value.trim();
+            let country = document.getElementById("country").value;
+
+            let message = document.getElementById("message");
+
+            // Mandatory fields
+            if (name === "" || email === "" || password === "" || gender === "" || mobile === "" || state === "" || pincode === "" || country === "") {
+                message.innerHTML = "Please fill all fields.";
+                message.className = "mt-4 text-center font-semibold text-red-500";
+                return;
+            }
+
+            // Email validation
+            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                message.innerHTML = "Enter a valid email.";
+                message.className = "mt-4 text-center font-semibold text-red-500";
+                return;
+            }
+
+            // Password validation
+            if (password.length < 6) {
+                message.innerHTML = "Password must be at least 6 characters.";
+                message.className = "mt-4 text-center font-semibold text-red-500";
+                return;
+            }
+
+            // Mobile validation
+            if (mobile.length !== 10 || isNaN(mobile)) {
+                message.innerHTML = "Enter a valid 10-digit mobile number.";
+                message.className = "mt-4 text-center font-semibold text-red-500";
+                return;
+            }
+
+            // PIN code validation
+            if (pincode.length !== 6 || isNaN(pincode)) {
+                message.innerHTML = "Enter a valid 6-digit PIN code.";
+                message.className = "mt-4 text-center font-semibold text-red-500";
+                return;
+            }
+
+            // Success
+            message.innerHTML = "Registration Successful!";
+            message.className = "mt-4 text-center font-semibold text-green-600";
+
+            // Reset form
+            this.reset();
+            passwordInput.type = "password";
+            toggleBtn.textContent = "Show";
+        };
+    </script>
+
+</body>
+</html
